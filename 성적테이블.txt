@@ -1,0 +1,26 @@
+성적테이블
+
+--시퀀스
+CREATE sequence seq_sungtb_no; 
+
+CREATE TABLE sungtb(
+    no NUMBER(3) primary key,  --학생 일련번호
+    name VARCHAR2(50) not null, --이름
+    kor NUMBER(3) default 0, --국어성적(기본값0)
+    eng NUMBER(3) default 0,  --영어성적
+    mat NUMBER(3) default 0
+);
+
+--샘플 데이터
+insert into SUNGTB values(seq_sungtb_no.nextval, '일길동', 76, 85, 99);
+insert into SUNGTB values(seq_sungtb_no.nextval, '이길동', 78, 54, 23);
+insert into SUNGTB values(seq_sungtb_no.nextval, '삼길동', 90, 12, 69);
+commit;
+
+--총점, 평균, 순위를 확인할 수 있는 조회뷰 생성
+CREATE or replace view SUNGTB_VIEW as 
+SELECT s.*, ( kor + eng + mat ) tot,
+	    round( (kor+eng+mat)/3, 1 ) avg,
+	    rank() over( order by (kor+eng+mat) desc) rank
+from (select * from sungtb) s
+order by no;
