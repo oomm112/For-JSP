@@ -1,0 +1,14 @@
+이미지갤러리 테이블
+
+이미지갤러리 시퀀스
+CREATE SEQUENCE seq_photo_idx;
+
+이미지갤러리 테이블
+CREATE TABLE photo(
+	idx NUMBER(3) primary key,
+	title VARCHAR2(100) not null,
+	filename VARCHAR2(100),
+	pwd VARCHAR2(50),
+	ip VARCHAR2(50),
+	regidate DATE --등록일자
+);
