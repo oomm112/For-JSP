@@ -1,0 +1,18 @@
+장바구니 시퀀스
+create sequence seq_cart_idx;
+
+
+장바구니 테이블
+create table cart(
+	c_idx NUMBER(3) primary key, --장바구니 상품 일련번호
+	c_cnt NUMBER(3) not null, --장바구니 물품 수량
+	p_idx NUMBER(3), --상품번호
+	m_idx NUMBER(3) not null --회원번호
+);
+
+--상품테이블(product)의 idx와 p_idx간의 외래키 설정
+--p_idx를 idx의 외래키로 지정하면 product에 idx가 실제로 존재하는 경우에만
+--p_idx를 검색할 수 있다.
+alter table cart
+add constraint fk_cart_p_idx foreign key( p_idx )
+references product( idx );
