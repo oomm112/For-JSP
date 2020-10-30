@@ -1,0 +1,29 @@
+--시퀀스
+create sequence seq_login_idx;
+
+--회원 정보 테이블
+idx / id / pwd / email / name / age
+
+create table user(
+	idx NUMBER(3) primary key, 
+	id VARCHAR2(50) not null unique,
+	pwd VARCAHR2(100) not null,
+	email VARCHAR2(100) not null,
+	name VARCAHR2(40) not null,
+	age NUMBER(3) not null
+);
+
+
+--시퀀스 ( 회원별 메모장 )
+create sequence seq_memo_idx;
+
+--테이블 
+idx/ u_id / category / title / content /date
+create table memo(
+	idx NUMBER(3) primary key,
+	u_id VARCHAR2(50),
+	category VARCHAR2(100) unique,
+	title VARCHAR2(100) not null unique,
+	content CLOB not null
+	date DATE
+);

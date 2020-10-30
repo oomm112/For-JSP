@@ -16,3 +16,25 @@ create table cart(
 alter table cart
 add constraint fk_cart_p_idx foreign key( p_idx )
 references product( idx );
+
+--장바구니를 조회하기 위한 전용 view
+create or replace view cart_view AS 
+select idx p_idx, --idx는 product의 컬럼이다. 앞으로는 이를 p_idx로 변경해서 사용.
+	c_idx,
+	p_num,
+	p_name
+	p_price,
+	p_saleprice,
+	c_cnt,
+	m_idx,
+	c_cnt*p_saleprice amount --총액  (수량*세일가격)
+from product p inner join cart c
+on p.idx = c.p_idx;
+--inner join : 외래키로 연결되 조건이 정확히 일치하는 경우에만 값을 가져온다.
+
+--장바구니 모든 상품의  총금액을 구하려면 ...
+select sum(amount) from cart_view;
+
+
+
+
