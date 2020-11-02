@@ -1,0 +1,45 @@
+게시안 DB
+--시퀀스
+create sequence seq_board_idx;
+
+--게시판 테이블
+create table board(
+	idx NUMBER(3) primary key,
+	name VARCHAR2(50) not null,	--작성자이름
+	subject VARCHAR2(255) not null,	--게시글제목
+	content CLOB not null,		--게시글내용
+	pwd VARCHAR2(100) not null,	--비밀번호
+	ip VARCHAR2(50),			--IP
+	regdate DATE,			--작성일
+	readhit NUMBER(4) default 0,	--조회수
+	ref NUMBER(3), 			--기준글번호(댓글을 달기 위한 메인글의 번호)
+	step NUMBER(2), 			--댓글순서 (수직)
+	depth NUMBER(2)			--댓글의깊이
+);
+
+--새글 샘플 
+insert into board values(
+	seq_board_idx.nextVal, '일길동', '내가 1등', '나는 1등 아니면 안해', '1111',
+	'192.1.1.1', sysdate, 0, seq_board_idx.currVal, --현재 나의 시퀀스 값
+	0,0
+);
+commit;
+
+--댓글
+insert into board values(
+	seq_board_idx.nextVal, '이길동', '댓글맨', '나는 댓글 아니면 안해', '1111',
+	'192.1.1.1', sysdate, 0,1,
+	1,1
+);
+commit;
+
+--댓글의 댓글
+insert into board values(
+	seq_board_idx.nextVal, '대댓글맨', '나는 대댓글이다', '나는 대댓글 아니면 안해', '1111',
+	'192.1.1.1', sysdate, 0,1,
+	2,2
+);
+commit;
+
+--게시판의 정렬구조
+select * from board order by ref DESC, step ASC;
