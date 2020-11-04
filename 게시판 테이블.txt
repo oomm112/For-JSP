@@ -43,3 +43,14 @@ commit;
 
 --게시판의 정렬구조
 select * from board order by ref DESC, step ASC;
+
+--DB삭제 여부확인을 위한 컬럼 추가
+alter table board add(del_info NUMBER(2));
+(보통 회원 탈퇴시 개인정보를 완전히 지우지 않는다)
+
+--페이징 처리를 위한 Query문
+select * from 
+(select rank() over( order by ref desc, step asc ) no, 
+	b.*
+	from (select * from board) b )
+where no between 1 and 10;
